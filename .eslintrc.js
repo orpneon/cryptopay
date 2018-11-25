@@ -85,7 +85,7 @@ module.exports = {
     'no-unused-vars': 1,
     'handle-callback-err': 1,
     'block-spacing': [1, 'always'],
-    'brace-style': [1, 'stroustrup', { allowSingleLine: true }],
+    'brace-style': [1, '1tbs', { allowSingleLine: true }],
     'camelcase': 1,
     'comma-dangle': [1, 'never'],
     'comma-spacing': 1,
@@ -102,7 +102,6 @@ module.exports = {
     'object-curly-spacing': [1, 'always', { arraysInObjects: false }],
     'one-var-declaration-per-line': 1,
     'operator-assignment': 1,
-    'quote-props': [2, 'as-needed'],
     'quotes': [1, 'single', { allowTemplateLiterals: true }],
     'semi-spacing': 1,
     'semi': ['error', 'never'],
@@ -140,6 +139,7 @@ module.exports = {
         'max': 1,
         'allowFirstLine': false
       }
-    }]
+    }],
+    'prefer-promise-reject-errors': 0
   }
 }
