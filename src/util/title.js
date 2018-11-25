@@ -2,6 +2,7 @@ const DEFAULT_TITLE = 'Crypto Calculator'
 
 function getTitle(vm) {
   const { title } = vm.$options
+
   if (title) {
     return typeof title === 'function'
       ? title.call(vm)
@@ -12,14 +13,20 @@ function getTitle(vm) {
 const serverTitleMixin = {
   created() {
     const title = getTitle(this)
-    this.$ssrContext.title = title || DEFAULT_TITLE
+
+    if (title) {
+      this.$ssrContext.title = title || DEFAULT_TITLE
+    }
   }
 }
 
 const clientTitleMixin = {
   mounted() {
     const title = getTitle(this)
-    document.title = title || DEFAULT_TITLE
+
+    if (title) {
+      document.title = title || DEFAULT_TITLE
+    }
   }
 }
 
