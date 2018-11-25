@@ -1,4 +1,4 @@
-# CryptoPay
+# Crypto Calculator
 > The test task from CryptoPay
 
 ## Build Setup
