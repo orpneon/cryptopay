@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <h1>Crypto Calculator</h1>
+    <header class="header">
+      <h1 class="header__title">Калькулятор и конвертер криптовалют</h1>
+    </header>
     <router-view/>
   </div>
 </template>
@@ -11,18 +13,29 @@
     margin 0
     padding 0
 
-  body, html
+  html
+    background #136ebd url(https://www.cryptonator.com/ui/img/background-alt.svg) no-repeat fixed 50% 0
+
+  html, body
     height 100%
     overflow hidden !important
 
   #app
-    font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+    font-family -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
     -webkit-font-smoothing antialiased
     -moz-osx-font-smoothing grayscale
     height 100%
     overflow-x hidden
     overflow-y auto
-    color #2c3e50
-    background-color #f2f3f5
+    color #fff
+    width 1024px
+    margin 72px auto 0
+
+    .header
+      text-align center
+
+      &__title
+        font-weight normal
+        font-size 36px
 
 </style>
