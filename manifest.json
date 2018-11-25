@@ -1,6 +1,13 @@
 {
   "name": "Crypto Calculator",
   "short_name": "CC",
+  "icons": [{
+    "src": "/public/favico.png",
+    "sizes": "96x96",
+    "type": "image/png"
+  }],
   "start_url": "/",
-  "display": "standalone"
+  "background_color": "#f2f3f5",
+  "display": "standalone",
+  "theme_color": "#249DD8"
 }
