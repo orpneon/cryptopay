@@ -5,7 +5,8 @@ module.exports = {
     ecmaFeatures: {
       impliedStrict: true,
       experimentalObjectRestSpread: true
-    }
+    },
+    parser: 'babel-eslint'
   },
   root: true,
   globals: {
@@ -128,6 +129,7 @@ module.exports = {
     'prefer-arrow-callback': 1,
     'require-yield': 2,
     'template-curly-spacing': 1,
+    'indent': 0,
     'vue/html-indent': 0,
     'vue/attributes-order': 0,
     'no-unused-expressions': 0,
