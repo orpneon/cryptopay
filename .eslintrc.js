@@ -21,9 +21,8 @@ module.exports = {
     es6: true
   },
   // required to lint *.vue files
-  plugins: [
-    'html'
-  ],
+  plugins: ['vue'],
+  extends: ['standard', 'plugin:vue/recommended'],
   // add your custom rules here
   rules: {
     'no-constant-condition': 2,
@@ -128,6 +127,17 @@ module.exports = {
     'object-shorthand': 1,
     'prefer-arrow-callback': 1,
     'require-yield': 2,
-    'template-curly-spacing': 1
+    'template-curly-spacing': 1,
+    'vue/html-indent': 0,
+    'vue/attributes-order': 0,
+    'no-unused-expressions': 0,
+    'vue/name-property-casing': ['error', 'kebab-case'],
+    'vue/max-attributes-per-line': [2, {
+      'singleline': 1,
+      'multiline': {
+        'max': 1,
+        'allowFirstLine': false
+      }
+    }]
   }
 }
