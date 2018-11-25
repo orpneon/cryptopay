@@ -1,0 +1,6 @@
+{
+  "name": "Crypto Calculator",
+  "short_name": "CC",
+  "start_url": "/",
+  "display": "standalone"
+}
