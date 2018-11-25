@@ -26,7 +26,6 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    'no-console': 1,
     'no-constant-condition': 2,
     'no-dupe-args': 2,
     'no-dupe-keys': 2,
@@ -44,7 +43,6 @@ module.exports = {
     'no-unsafe-finally': 2,
     'no-unsafe-negation': 2,
     'use-isnan': 1,
-    'valid-jsdoc': 1,
     'valid-typeof': 2,
     'array-callback-return': 1,
     'block-scoped-var': 1,
@@ -71,7 +69,6 @@ module.exports = {
     'no-self-assign': 1,
     'no-self-compare': 1,
     'no-throw-literal': 2,
-    'no-unused-expressions': 1,
     'no-useless-call': 2,
     'no-useless-concat': 1,
     'no-useless-escape': 2,
@@ -97,7 +94,6 @@ module.exports = {
     'func-call-spacing': 1,
     'func-style': [1, 'declaration', { allowArrowFunctions: true }],
     'key-spacing': 1,
-    'new-cap': 2,
     'new-parens': 2,
     'no-mixed-spaces-and-tabs': 2,
     'no-trailing-spaces': 2,
