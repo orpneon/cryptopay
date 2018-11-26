@@ -10,12 +10,13 @@
       <v-select v-model="convert.from"
                 :class="b('select', 'from')"
                 :items="currencies.from"
+                @change="forceUpdateConversion"
                 hide-details
                 solo/>
     </v-flex>
 
     <v-flex :class="b('swapper')">
-      <v-icon @click.native="swapConvert"
+      <v-icon @click.native="swapConversion"
               size="48"
               dark>
         swap_horiz
@@ -29,6 +30,7 @@
       <v-select v-model="convert.to"
                 :class="b(('select', 'to'))"
                 :items="currencies.to"
+                @change="forceUpdateConversion"
                 hide-details
                 solo/>
     </v-flex>
@@ -37,10 +39,11 @@
 </template>
 
 <script>
-  import { mapGetters, mapMutations } from 'vuex'
+  import { mapGetters, mapMutations, mapActions } from 'vuex'
 
   const { currencies, convert } = mapGetters(['currencies', 'convert'])
   const { swapConvert } = mapMutations(['swapConvert'])
+  const { updateConverted } = mapActions(['updateConverted'])
 
   export default {
     name: 'currency-select',
@@ -60,7 +63,17 @@
     },
 
     methods: {
-      swapConvert
+      updateConverted,
+      swapConvert,
+
+      swapConversion() {
+        this.swapConvert()
+        this.$nextTick(this.forceUpdateConversion)
+      },
+
+      forceUpdateConversion() {
+        this.updateConverted()
+      }
     }
   }
 </script>

@@ -51,11 +51,11 @@ export function createStore() {
             const amount = value || getters.amount
             const result = +(price * amount).toFixed(decimalPrecision)
 
-            commit('setAmount', value)
+            commit('setAmount', amount)
             commit('setConvertedResult', result)
           })
-          .catch((error, obj) => {
-            console.log(error, obj)
+          .catch(error => {
+            console.error(new Error(error))
           })
       }
     },

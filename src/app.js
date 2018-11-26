@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import VueBemCn from 'vue-bem-cn/dist/vue-bem-cn.umd.min'
+
 import App from './App.vue'
 import { createStore } from './store'
 import { createRouter } from './router'
@@ -8,6 +9,8 @@ import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
 import * as filters from './util/filters'
 
+// styles
+import 'vuejs-noty/dist/vuejs-noty.css'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 

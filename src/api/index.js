@@ -1,5 +1,6 @@
 // this is aliased in webpack config based on server/client build
 import { createAPI } from 'create-api'
+import { showError, isClientEntry } from '@/api/error-handler'
 
 const logRequests = !!process.env.DEBUG_API
 const api = createAPI()
@@ -38,9 +39,9 @@ export function request(action, method, params = {}, root) {
         if (response.data.success === true) {
           logRequests && console.log(`fetched ${url}.`)
           resolve(root ? response.data[root] : response.data)
-        }
-        else {
-          reject('An API error has occurred', response)
+        } else {
+          const error = response.data.error
+          isClientEntry() ? showError(error) : reject(error)
         }
       })
       .catch((...err) => {
