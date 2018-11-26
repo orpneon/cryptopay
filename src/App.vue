@@ -48,7 +48,7 @@
 
     .header
       text-align center
-      margin-top 72px
+      margin-top 60px
 
       &__title
         font-weight normal

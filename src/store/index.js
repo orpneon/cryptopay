@@ -27,6 +27,7 @@ export function createStore() {
       },
 
       amount: null,
+      changed: null,
       convertedResult: null
     },
 
@@ -34,6 +35,7 @@ export function createStore() {
       currencies: state => state.currencies,
       convert: state => state.convert,
       amount: state => state.amount,
+      changed: state => state.changed,
       convertedResult: state => state.convertedResult
     },
 
@@ -48,10 +50,12 @@ export function createStore() {
             const current = find(currencies.to, record => convert.to === record.value)
             const decimalPrecision = current ? current.decimalPrecision : 2
             const price = +data.ticker.price
+            const change = +data.ticker.change
             const amount = value || getters.amount
             const result = +(price * amount).toFixed(decimalPrecision)
 
             commit('setAmount', amount)
+            commit('setChanged', change)
             commit('setConvertedResult', result)
           })
           .catch(error => {
@@ -79,6 +83,10 @@ export function createStore() {
 
       setConvertedResult(state, value) {
         state.convertedResult = value
+      },
+
+      setChanged(state, value) {
+        state.changed = value
       },
 
       clearConverted(state) {
