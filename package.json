@@ -3,7 +3,7 @@
   "description": "The test task from CryptoPay",
   "author": "OrpNeon <orpneon@yandex.ru>",
   "scripts": {
-    "dev": "node server",
+    "dev": "cross-env PORT=8084 node server",
     "start": "cross-env NODE_ENV=production node server",
     "build": "rimraf dist && npm run build:client && npm run build:server",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",

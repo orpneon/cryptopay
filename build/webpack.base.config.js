@@ -59,6 +59,23 @@ module.exports = {
             fallback: 'vue-style-loader'
           })
           : ['vue-style-loader', 'css-loader', 'stylus-loader']
+      },
+      {
+        test: /\.css$/,
+        use: isProd
+          ? ExtractTextPlugin.extract({
+            use: 'css-loader',
+            fallback: 'vue-style-loader'
+          })
+          : ['vue-style-loader', 'css-loader']
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: path.posix.join('public', 'fonts/[name].[hash:7].[ext]')
+        }
       }
     ]
   },
