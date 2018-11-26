@@ -1,12 +1,10 @@
 <template>
-  <div id="app">
-    <header class="header">
+  <v-app id="app">
+    <div class="header">
       <h1 class="header__title">Калькулятор и конвертер криптовалют</h1>
-    </header>
-    <main>
-      <router-view/>
-    </main>
-  </div>
+    </div>
+    <router-view/>
+  </v-app>
 </template>
 
 <style lang="stylus">
@@ -30,8 +28,9 @@
     overflow-x hidden
     overflow-y auto
     color #fff
-    width 860px
+    max-width 860px
     margin 72px auto 0
+    background-color transparent
 
     .header
       text-align center

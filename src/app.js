@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import VueBemCn from 'vue-bem-cn/dist/vue-bem-cn.umd.min'
 import App from './App.vue'
 import { createStore } from './store'
 import { createRouter } from './router'
@@ -14,6 +15,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 Vue.mixin(titleMixin)
 
 Vue.use(Vuetify)
+Vue.use(VueBemCn)
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

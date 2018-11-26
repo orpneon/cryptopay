@@ -1,14 +1,40 @@
 <template>
-  <div class="crypto-calculator">
-    <v-select
-      :options="options.currency"
-      :searchable="false"
-    />
-    <v-select
-      :options="options.crypto"
-      :searchable="false"
-    />
-  </div>
+  <v-container :class="b()"
+               fluid>
+    <v-layout wrap
+              justify-space-between>
+
+      <v-flex :class="b('select-wrapper', 'from')"
+              xs5
+              d-flex>
+        <span :class="b('select-label', 'align-end')">{{ locale.from }}</span>
+        <v-select v-model="value.from"
+                  :class="b('select', 'from')"
+                  :items="options.from"
+                  hide-details
+                  solo/>
+      </v-flex>
+
+      <v-flex :class="b('swapper')">
+        <v-icon size="48"
+                dark>
+          swap_horiz
+        </v-icon>
+      </v-flex>
+
+      <v-flex :class="b('select-wrapper', 'to')"
+              xs5
+              d-flex>
+        <span :class="b('select-label')">{{ locale.to }}</span>
+        <v-select v-model="value.to"
+                  :class="b(('select', 'to'))"
+                  :items="options.to"
+                  hide-details
+                  solo/>
+      </v-flex>
+
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -22,19 +48,19 @@
           to: 'в'
         },
         value: {
-          currency: 'USD',
-          crypto: 'BTC'
+          from: 'USD',
+          to: 'BTC'
         },
         options: {
-          currency: [
-            { label: 'US Dollar', value: 'USD' },
-            { label: 'Euro', value: 'EUR' },
-            { label: 'Ruble', value: 'RUR' }
+          from: [
+            { text: 'US Dollar', value: 'USD' },
+            { text: 'Euro', value: 'EUR' },
+            { text: 'Ruble', value: 'RUR' }
           ],
-          crypto: [
-            { label: 'Bitcoin', value: 'BTC' },
-            { label: 'Litecoin', value: 'LTC' },
-            { label: 'Ethereum', value: 'ETH' }
+          to: [
+            { text: 'Bitcoin', value: 'BTC' },
+            { text: 'Litecoin', value: 'LTC' },
+            { text: 'Ethereum', value: 'ETH' }
           ]
         }
       }
@@ -44,18 +70,19 @@
 
 <style lang="stylus">
   .crypto-calculator
-    display flex
-    justify-content space-between
     margin 40px 0
 
-    .v-select
-      min-width 300px
-      margin 0 60px
+    &__swapper
+      display flex
+      justify-content center
+      align-items flex-end
+      cursor pointer
+      width 48px
 
-      .dropdown-toggle
-        background-color #fff
+    &__select-wrapper
+      flex-direction column
 
-      .form-control
-        line-height 36px
+    &__select-label
+      text-align center
 
 </style>
