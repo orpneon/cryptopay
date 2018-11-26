@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuetify from 'vuetify'
 import App from './App.vue'
 import { createStore } from './store'
 import { createRouter } from './router'
@@ -8,6 +9,8 @@ import * as filters from './util/filters'
 
 // mixin for handling title
 Vue.mixin(titleMixin)
+
+Vue.use(Vuetify)
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

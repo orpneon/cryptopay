@@ -3,7 +3,9 @@
     <header class="header">
       <h1 class="header__title">Калькулятор и конвертер криптовалют</h1>
     </header>
-    <router-view/>
+    <main>
+      <router-view/>
+    </main>
   </div>
 </template>
 
@@ -28,7 +30,7 @@
     overflow-x hidden
     overflow-y auto
     color #fff
-    width 1024px
+    width 860px
     margin 72px auto 0
 
     .header
