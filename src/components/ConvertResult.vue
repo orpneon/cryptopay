@@ -28,4 +28,9 @@
 
     &__converted
       font-weight bold
+
+  @media only screen and (max-width: 960px)
+    .convert-result
+      font-size 24px
+
 </style>
