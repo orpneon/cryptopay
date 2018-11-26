@@ -16,7 +16,8 @@
       </v-flex>
 
       <v-flex :class="b('swapper')">
-        <v-icon size="48"
+        <v-icon @click.native="swapSelects"
+                size="48"
                 dark>
           swap_horiz
         </v-icon>
@@ -64,12 +65,32 @@
           ]
         }
       }
+    },
+
+    methods: {
+      swapSelects() {
+        Object.assign(this.options, {
+          from: this.options.to,
+          to: this.options.from
+        })
+
+        Object.assign(this.value, {
+          from: this.value.to,
+          to: this.value.from
+        })
+      }
     }
   }
 </script>
 
 <style lang="stylus">
   .crypto-calculator
+    -webkit-touch-callout none
+    -webkit-user-select none
+    -khtml-user-select none
+    -moz-user-select none
+    -ms-user-select none
+    user-select none
     margin 40px 0
 
     &__swapper
