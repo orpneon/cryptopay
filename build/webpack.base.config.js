@@ -6,18 +6,24 @@ const { VueLoaderPlugin } = require('vue-loader')
 
 const isProd = process.env.NODE_ENV === 'production'
 
+const resolve = function(dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 module.exports = {
   devtool: isProd
     ? false
     : '#cheap-module-source-map',
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: resolve('dist'),
     publicPath: '/dist/',
     filename: '[name].[chunkhash].js'
   },
   resolve: {
+    extensions: ['.js', '.json'],
     alias: {
-      public: path.resolve(__dirname, '../public')
+      public: resolve('public'),
+      '@': resolve('src')
     }
   },
   module: {
@@ -35,7 +41,8 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        include: [resolve('src')]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

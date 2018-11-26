@@ -1,46 +1,16 @@
 <template>
   <v-container :class="b()"
                fluid>
-    <v-layout wrap
-              justify-space-between>
 
-      <v-flex :class="b('select-wrapper', 'from')"
-              xs5
-              d-flex>
-        <span :class="b('select-label', 'align-end')">{{ locale.from }}</span>
-        <v-select v-model="convert.from"
-                  :class="b('select', 'from')"
-                  :items="options.from"
-                  hide-details
-                  solo/>
-      </v-flex>
-
-      <v-flex :class="b('swapper')">
-        <v-icon @click.native="swapSelects"
-                size="48"
-                dark>
-          swap_horiz
-        </v-icon>
-      </v-flex>
-
-      <v-flex :class="b('select-wrapper', 'to')"
-              xs5
-              d-flex>
-        <span :class="b('select-label')">{{ locale.to }}</span>
-        <v-select v-model="convert.to"
-                  :class="b(('select', 'to'))"
-                  :items="options.to"
-                  hide-details
-                  solo/>
-      </v-flex>
-
-    </v-layout>
+    <currency-select/>
 
     <v-layout wrap
               mt-4
               justify-center>
       <v-flex :class="b('convert-field')"
-              xs6>
+              md6
+              sm8
+              xs10>
         <v-text-field v-model="value"
                       :placeholder="locale.placeholder"
                       :rules="validateNumberField"
@@ -50,76 +20,64 @@
         />
       </v-flex>
     </v-layout>
+
+    <div v-if="convertedResult"
+         :class="b('converted-result')">
+      {{ convertedResult }}
+    </div>
+
   </v-container>
 </template>
 
 <script>
   import { debounce } from 'underscore'
+  import { validateNumberField } from '@/util/validators'
+  import { mapActions, mapGetters, mapMutations } from 'vuex'
+  import CurrencySelect from '@/components/CurrencySelect.vue'
+
+  const { clearConverted } = mapMutations(['clearConverted'])
+  const { convertedResult } = mapGetters(['convertedResult'])
+  const { updateConverted } = mapActions(['updateConverted'])
 
   export default {
     name: 'crypto-calculator',
 
+    components: { CurrencySelect },
+
     data() {
       return {
         locale: {
-          from: 'из',
-          to: 'в',
           placeholder: 'Укажите сумму',
-          validateError: 'Неверный формат'
+          validityError: 'Неверный формат'
         },
-        convert: {
-          from: 'USD',
-          to: 'BTC'
-        },
-        options: {
-          from: [
-            { text: 'US Dollar', value: 'USD', decimalPrecision: 2 },
-            { text: 'Euro', value: 'EUR', decimalPrecision: 2 },
-            { text: 'Ruble', value: 'RUR', decimalPrecision: 2 }
-          ],
-          to: [
-            { text: 'Bitcoin', value: 'BTC', decimalPrecision: 8 },
-            { text: 'Litecoin', value: 'LTC', decimalPrecision: 8 },
-            { text: 'Ethereum', value: 'ETH', decimalPrecision: 8 }
-          ]
-        },
+
         value: null,
-        lastValue: null,
-        validateNumberField: [
-          function(val) {
-            const checkRule = /^\d*\.?\d+$/
+        lastValue: null
+      }
+    },
 
-            if (checkRule.test(val) || !val) {
-              return true
-            }
+    computed: {
+      convertedResult,
 
-            return this.locale.validateError
-          }.bind(this)
-        ]
+      validateNumberField() {
+        return [validateNumberField(this.locale.validityError)]
       }
     },
 
     methods: {
-      swapSelects() {
-        Object.assign(this.options, {
-          from: this.options.to,
-          to: this.options.from
-        })
-
-        Object.assign(this.convert, {
-          from: this.convert.to,
-          to: this.convert.from
-        })
-      },
+      updateConverted,
+      clearConverted,
 
       maybeConvertCurrency: debounce(function() {
         this.$nextTick(() => {
           const convertField = this.$refs.convertField
-          const changed = this.value !== this.lastValue
+          const changed = this.value && this.value !== this.lastValue
 
           if (convertField.valid && changed) {
             this.lastValue = this.value
-            console.log('update')
+            this.updateConverted(this.value)
+          } else if (!convertField.valid) {
+            this.clearConverted()
           }
         })
       }, 300)
@@ -135,20 +93,7 @@
     -moz-user-select none
     -ms-user-select none
     user-select none
-    margin 40px 0
-
-    &__swapper
-      display flex
-      justify-content center
-      align-items flex-end
-      cursor pointer
-      width 48px
-
-    &__select-wrapper
-      flex-direction column
-
-    &__select-label
-      text-align center
+    margin 30px 0
 
     &__convert-field
       .error--text
