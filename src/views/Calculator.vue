@@ -8,7 +8,7 @@
               xs5
               d-flex>
         <span :class="b('select-label', 'align-end')">{{ locale.from }}</span>
-        <v-select v-model="value.from"
+        <v-select v-model="convert.from"
                   :class="b('select', 'from')"
                   :items="options.from"
                   hide-details
@@ -27,7 +27,7 @@
               xs5
               d-flex>
         <span :class="b('select-label')">{{ locale.to }}</span>
-        <v-select v-model="value.to"
+        <v-select v-model="convert.to"
                   :class="b(('select', 'to'))"
                   :items="options.to"
                   hide-details
@@ -35,10 +35,27 @@
       </v-flex>
 
     </v-layout>
+
+    <v-layout wrap
+              mt-4
+              justify-center>
+      <v-flex :class="b('convert-field')"
+              xs6>
+        <v-text-field v-model="value"
+                      :placeholder="locale.placeholder"
+                      :rules="validateNumberField"
+                      @input="maybeConvertCurrency"
+                      ref="convertField"
+                      solo
+        />
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
 <script>
+  import { debounce } from 'underscore'
+
   export default {
     name: 'crypto-calculator',
 
@@ -46,24 +63,39 @@
       return {
         locale: {
           from: 'из',
-          to: 'в'
+          to: 'в',
+          placeholder: 'Укажите сумму',
+          validateError: 'Неверный формат'
         },
-        value: {
+        convert: {
           from: 'USD',
           to: 'BTC'
         },
         options: {
           from: [
-            { text: 'US Dollar', value: 'USD' },
-            { text: 'Euro', value: 'EUR' },
-            { text: 'Ruble', value: 'RUR' }
+            { text: 'US Dollar', value: 'USD', decimalPrecision: 2 },
+            { text: 'Euro', value: 'EUR', decimalPrecision: 2 },
+            { text: 'Ruble', value: 'RUR', decimalPrecision: 2 }
           ],
           to: [
-            { text: 'Bitcoin', value: 'BTC' },
-            { text: 'Litecoin', value: 'LTC' },
-            { text: 'Ethereum', value: 'ETH' }
+            { text: 'Bitcoin', value: 'BTC', decimalPrecision: 8 },
+            { text: 'Litecoin', value: 'LTC', decimalPrecision: 8 },
+            { text: 'Ethereum', value: 'ETH', decimalPrecision: 8 }
           ]
-        }
+        },
+        value: null,
+        lastValue: null,
+        validateNumberField: [
+          function(val) {
+            const checkRule = /^\d*\.?\d+$/
+
+            if (checkRule.test(val) || !val) {
+              return true
+            }
+
+            return this.locale.validateError
+          }.bind(this)
+        ]
       }
     },
 
@@ -74,11 +106,23 @@
           to: this.options.from
         })
 
-        Object.assign(this.value, {
-          from: this.value.to,
-          to: this.value.from
+        Object.assign(this.convert, {
+          from: this.convert.to,
+          to: this.convert.from
         })
-      }
+      },
+
+      maybeConvertCurrency: debounce(function() {
+        this.$nextTick(() => {
+          const convertField = this.$refs.convertField
+          const changed = this.value !== this.lastValue
+
+          if (convertField.valid && changed) {
+            this.lastValue = this.value
+            console.log('update')
+          }
+        })
+      }, 300)
     }
   }
 </script>
@@ -105,5 +149,13 @@
 
     &__select-label
       text-align center
+
+    &__convert-field
+      .error--text
+        color #FFEA00 !important
+
+      .v-input.error--text
+        .v-input__slot
+          border 1px solid #FF5252 !important
 
 </style>

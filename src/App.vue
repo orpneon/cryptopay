@@ -28,7 +28,7 @@
     overflow-x hidden
     overflow-y auto
     color #fff
-    max-width 860px
+    max-width 800px
     margin 72px auto 0
     background-color transparent
 
