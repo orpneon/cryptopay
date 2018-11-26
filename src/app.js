@@ -7,7 +7,6 @@ import { createStore } from './store'
 import { createRouter } from './router'
 import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
-import * as filters from './util/filters'
 
 // styles
 import 'vuejs-noty/dist/vuejs-noty.css'
@@ -19,11 +18,6 @@ Vue.mixin(titleMixin)
 
 Vue.use(Vuetify)
 Vue.use(VueBemCn)
-
-// register global utility filters.
-Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
-})
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
