@@ -12,6 +12,7 @@
                     :rules="validateNumberField"
                     @input="maybeConvertCurrency"
                     ref="convertField"
+                    type="text"
                     solo
       />
     </v-flex>

@@ -4,7 +4,8 @@
             justify-space-between>
 
     <v-flex :class="b('wrapper', 'from')"
-            xs5
+            sm5
+            xs4
             d-flex>
       <span :class="b('label', 'align-end')">{{ locale.from }}</span>
       <v-select v-model="convert.from"
@@ -24,7 +25,8 @@
     </v-flex>
 
     <v-flex :class="b('wrapper', 'to')"
-            xs5
+            sm5
+            xs4
             d-flex>
       <span :class="b('label')">{{ locale.to }}</span>
       <v-select v-model="convert.to"
