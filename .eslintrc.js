@@ -50,7 +50,6 @@ module.exports = {
     'eqeqeq': [1, 'smart'],
     'no-alert': 2,
     'no-case-declarations': 2,
-    'no-empty-function': 1,
     'no-empty-pattern': 2,
     'no-eq-null': 1,
     'no-eval': 2,

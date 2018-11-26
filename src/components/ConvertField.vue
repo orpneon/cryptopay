@@ -9,9 +9,8 @@
             xs10>
       <v-text-field v-model="value"
                     :placeholder="locale.placeholder"
-                    :rules="validateNumberField"
+                    :error-messages="validityError"
                     @input="maybeConvertCurrency"
-                    ref="convertField"
                     type="text"
                     solo
       />
@@ -37,31 +36,38 @@
           validityError: 'Неверный формат'
         },
 
-        value: null
+        value: null,
+        validityError: [],
+        validityFn: () => {}
       }
     },
 
-    computed: {
-      validateNumberField() {
-        return [validateNumberField(this.locale.validityError)]
-      }
+    beforeMount() {
+      this.validityFn = validateNumberField(this.locale.validityError)
     },
 
     methods: {
       updateConverted,
       clearConverted,
 
-      maybeConvertCurrency: debounce(function() {
-        this.$nextTick(() => {
-          const convertField = this.$refs.convertField
+      maybeConvertCurrency: debounce(function(val) {
+        this.checkValidity(val)
 
-          if (convertField.valid && this.value) {
+        this.$nextTick(() => {
+          const isValid = this.validityError.length === 0
+
+          if (isValid && this.value) {
             this.updateConverted(this.value)
           } else {
             this.clearConverted()
           }
         })
-      }, 300)
+      }, 300),
+
+      checkValidity(val) {
+        const result = this.validityFn(val)
+        this.validityError = result !== true ? result : []
+      }
     }
   }
 </script>
