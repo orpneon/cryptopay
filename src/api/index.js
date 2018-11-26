@@ -44,8 +44,9 @@ export function request(action, method, params = {}, root) {
           isClientEntry() ? showError(error) : reject(error)
         }
       })
-      .catch((...err) => {
-        reject('Axios issue', err)
+      .catch(err => {
+        const error = err.message || 'Request failure'
+        isClientEntry() ? showError(error) : reject(error)
       })
   })
 }
