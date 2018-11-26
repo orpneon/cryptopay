@@ -1,3 +1,10 @@
+// polyfills
+import '@babel/polyfill'
+import 'dom-shims/shim/HTMLDocument'
+import 'dom-shims/shim/Element.matches'
+import 'dom-shims/shim/Element.closest'
+import 'dom-shims/shim/Element.mutation'
+
 import Vue from 'vue'
 import 'es6-promise/auto'
 import { createApp } from './app'
