@@ -23,9 +23,6 @@
   import { validateNumberField } from '@/util/validators'
   import { mapActions, mapMutations } from 'vuex'
 
-  const { clearConverted } = mapMutations(['clearConverted'])
-  const { updateConverted } = mapActions(['updateConverted'])
-
   export default {
     name: 'convert-field',
 
@@ -47,8 +44,8 @@
     },
 
     methods: {
-      updateConverted,
-      clearConverted,
+      ...mapActions(['updateConverted']),
+      ...mapMutations(['clearConverted']),
 
       maybeConvertCurrency: debounce(function(val) {
         this.checkValidity(val)

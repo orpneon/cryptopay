@@ -17,15 +17,13 @@
   import ConvertField from '@/components/ConvertField.vue'
   import ConvertResult from '../components/ConvertResult.vue'
 
-  const { convertedResult } = mapGetters(['convertedResult'])
-
   export default {
     name: 'crypto-calculator',
 
     components: { ConvertResult, ConvertField, CurrencySelect },
 
     computed: {
-      convertedResult
+      ...mapGetters(['convertedResult'])
     }
   }
 </script>

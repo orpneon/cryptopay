@@ -11,21 +11,12 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  const { convertedResult, amount, convert, changed } = mapGetters([
-    'convertedResult',
-    'amount',
-    'convert',
-    'changed'
-  ])
 
   export default {
     name: 'convert-result',
 
     computed: {
-      amount,
-      convert,
-      changed,
-      convertedResult,
+      ...mapGetters(['convertedResult', 'amount', 'convert', 'changed']),
 
       changedIcon() {
         return this.changed < 0 ? 'call_received' : 'call_made'

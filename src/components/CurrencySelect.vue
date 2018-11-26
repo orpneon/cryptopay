@@ -43,10 +43,6 @@
 <script>
   import { mapGetters, mapMutations, mapActions } from 'vuex'
 
-  const { currencies, convert } = mapGetters(['currencies', 'convert'])
-  const { swapConvert } = mapMutations(['swapConvert'])
-  const { updateConverted } = mapActions(['updateConverted'])
-
   export default {
     name: 'currency-select',
 
@@ -60,13 +56,12 @@
     },
 
     computed: {
-      currencies,
-      convert
+      ...mapGetters(['currencies', 'convert'])
     },
 
     methods: {
-      updateConverted,
-      swapConvert,
+      ...mapActions(['updateConverted']),
+      ...mapMutations(['swapConvert']),
 
       swapConversion() {
         this.swapConvert()
