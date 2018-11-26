@@ -6,10 +6,7 @@
 
     <convert-field/>
 
-    <div v-if="convertedResult"
-         :class="b('converted-result')">
-      {{ convertedResult }}
-    </div>
+    <convert-result v-if="convertedResult"/>
 
   </v-container>
 </template>
@@ -18,13 +15,14 @@
   import { mapGetters } from 'vuex'
   import CurrencySelect from '@/components/CurrencySelect.vue'
   import ConvertField from '@/components/ConvertField.vue'
+  import ConvertResult from '../components/ConvertResult.vue'
 
   const { convertedResult } = mapGetters(['convertedResult'])
 
   export default {
     name: 'crypto-calculator',
 
-    components: { ConvertField, CurrencySelect },
+    components: { ConvertResult, ConvertField, CurrencySelect },
 
     computed: {
       convertedResult

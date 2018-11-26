@@ -37,6 +37,7 @@ export function createStore() {
 
     actions: {
       updateConverted({ commit }, value) {
+        commit('setAmount', value)
         commit('setConvertedResult', value)
       }
     },
@@ -52,6 +53,10 @@ export function createStore() {
           from: state.convert.to,
           to: state.convert.from
         })
+      },
+
+      setAmount(state, value) {
+        state.amount = value
       },
 
       setConvertedResult(state, value) {
