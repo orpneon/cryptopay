@@ -36,8 +36,7 @@
           validityError: 'Неверный формат'
         },
 
-        value: null,
-        lastValue: null
+        value: null
       }
     },
 
@@ -54,15 +53,12 @@
       maybeConvertCurrency: debounce(function() {
         this.$nextTick(() => {
           const convertField = this.$refs.convertField
-          const changed = this.value && this.value !== this.lastValue
 
-          if (convertField.valid && changed) {
+          if (convertField.valid && this.value) {
             this.updateConverted(this.value)
-          } else if (!convertField.valid || !this.value) {
+          } else {
             this.clearConverted()
           }
-
-          this.lastValue = this.value
         })
       }, 300)
     }

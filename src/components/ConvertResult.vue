@@ -1,8 +1,8 @@
 <template>
   <div :class="b()"
        mt-5>
-    <span :class="b('amount')">{{ convertedResult }} {{ convert.from }} = </span>
-    <span :class="b('converted')">{{ amount }} {{ convert.to }}</span>
+    <span :class="b('amount')">{{ amount }} {{ convert.from }} = </span>
+    <span :class="b('converted')">{{ convertedResult }} {{ convert.to }}</span>
   </div>
 </template>
 

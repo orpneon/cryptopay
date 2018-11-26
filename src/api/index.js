@@ -3,7 +3,7 @@ import { createAPI } from 'create-api'
 
 const logRequests = !!process.env.DEBUG_API
 const api = createAPI()
-const API_URL = ''
+const API_URL = 'https://api.cryptonator.com/api'
 
 function buildParams(paramsObject) {
   return Object.keys(paramsObject)
@@ -28,19 +28,19 @@ function buildParams(paramsObject) {
  */
 export function request(action, method, params = {}, root) {
   const data = buildParams(params)
-  const url = `${API_URL}${action}/?${data}`
+  const url = `${API_URL}/${action}/?${data}`
 
   logRequests && console.log(`fetching ${url}...`)
 
   return new Promise((resolve, reject) => {
     api({ method, url, data })
       .then(response => {
-        if (response.data.status === 'ok') {
+        if (response.data.success === true) {
           logRequests && console.log(`fetched ${url}.`)
           resolve(root ? response.data[root] : response.data)
         }
         else {
-          reject('An API error has occurred', resolve)
+          reject('An API error has occurred', response)
         }
       })
       .catch((...err) => {

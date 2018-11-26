@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { request } from '@/api'
+import { find } from 'underscore'
 
 Vue.use(Vuex)
 
@@ -36,9 +38,25 @@ export function createStore() {
     },
 
     actions: {
-      updateConverted({ commit }, value) {
-        commit('setAmount', value)
-        commit('setConvertedResult', value)
+      updateConverted({ commit, getters }, value) {
+        const convert = getters.convert
+        const currencies = getters.currencies
+        const convertStr = `${convert.from.toLowerCase()}-${convert.to.toLowerCase()}`
+
+        request(`ticker/${convertStr}`, 'get')
+          .then(data => {
+            const current = find(currencies.to, record => convert.to === record.value)
+            const decimalPrecision = current ? current.decimalPrecision : 2
+            const price = +data.ticker.price
+            const amount = value || getters.amount
+            const result = +(price * amount).toFixed(decimalPrecision)
+
+            commit('setAmount', value)
+            commit('setConvertedResult', result)
+          })
+          .catch((error, obj) => {
+            console.log(error, obj)
+          })
       }
     },
 
