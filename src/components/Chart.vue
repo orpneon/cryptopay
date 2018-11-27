@@ -21,6 +21,8 @@
     components: { ChartTools, LineChart },
 
     data() {
+      const currency = this.$store.state.chart.convert.from
+
       return {
         locale: {
           title: 'График'
@@ -29,6 +31,15 @@
           responsive: true,
           maintainAspectRatio: false,
           legend: { display: false },
+          tooltips: {
+            callbacks: {
+              label: tooltipItem => `${tooltipItem.yLabel} ${currency}`
+            },
+            custom: tooltip => {
+              if (!tooltip) return
+              tooltip.displayColors = false
+            }
+          },
           scales: {
             xAxes: [{
               display: false
