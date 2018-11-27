@@ -16,6 +16,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "axios": "^0.18.0",
+    "chart.js": "^2.7.3",
     "compression": "^1.7.1",
     "cross-env": "^5.1.1",
     "dom-shims": "^0.1.4",
@@ -30,6 +31,7 @@
     "underscore": "^1.9.1",
     "vue": "^2.5.16",
     "vue-bem-cn": "^1.1.1",
+    "vue-chartjs": "^3.4.0",
     "vue-router": "^3.0.1",
     "vue-server-renderer": "^2.5.16",
     "vuejs-noty": "^0.1.3",

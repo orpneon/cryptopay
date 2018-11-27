@@ -3,37 +3,37 @@
                pa-4
                fluid>
 
-    <div :class="b('title')">
-      {{ title }}
-    </div>
-
+    <div :class="b('title')">{{ title }}</div>
     <chart-tools/>
-
-    <v-layout wrap
-              column>
-      <div v-for="(val, index) in labels"
-           :key="index">
-        <span>
-          {{ labels[index] }} - {{ values[index] }}
-        </span>
-      </div>
-    </v-layout>
+    <line-chart :chart-data="chartData"
+                :options="chartOptions"/>
 
   </v-container>
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters } from 'vuex'
   import ChartTools from '@/components/ChartTools.vue'
+  import LineChart from '@/components/LineChart.vue'
 
   export default {
     name: 'currency-price-chart',
-    components: { ChartTools },
+    components: { ChartTools, LineChart },
 
     data() {
       return {
         locale: {
           title: 'График'
+        },
+        chartOptions: {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: { display: false },
+          scales: {
+            xAxes: [{
+              display: false
+            }]
+          }
         }
       }
     },
@@ -43,8 +43,19 @@
 
       title() {
         const cnv = this.convert
-
         return `${this.locale.title} ${cnv.from} / ${cnv.to}`
+      },
+
+      chartData() {
+        return {
+          labels: this.labels,
+          datasets: [{
+            backgroundColor: 'transparent',
+            pointBorderWidth: 5,
+            borderColor: this.$vuetify.theme.primary,
+            data: this.values
+          }]
+        }
       }
     }
   }
@@ -59,7 +70,7 @@
 
     &__title
       font-size 24px
-      margin-top 10px
+      margin 10px 0 20px
       text-align center
 
 </style>
