@@ -7,20 +7,47 @@ export default {
   state: () => ({
     labels: [],
     values: [],
-    period: 1,
-    min: null,
-    max: null
+
+    convert: {
+      from: 'USD',
+      to: null
+    }
   }),
 
   getters: {
     labels: state => state.labels,
     values: state => state.values,
-    period: state => state.period,
+    convert: state => state.convert,
     min: state => state.min,
     max: state => state.max
   },
 
-  actions: {},
+  actions: {
+    updateConvertCurrency({ commit, dispatch }, currency) {
+      commit('setConvert', currency)
+      dispatch('updateChart')
+    },
 
-  mutations: {}
+    updateChart({ commit, getters }) {
+      const requestUrl = getChartDataRequestUrl()
+      const convert = getters.convert
+      const params = {
+        market: `${convert.from}-${convert.to}`
+      }
+
+      request(requestUrl, 'get', params)
+        .then(data => {
+          console.log(data)
+        })
+        .catch(error => {
+          console.error(new Error(error))
+        })
+    }
+  },
+
+  mutations: {
+    setConvert(state, currency) {
+      state.convert.to = currency
+    }
+  }
 }

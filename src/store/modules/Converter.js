@@ -1,5 +1,5 @@
 import { subscribe, unsubscribe } from '@/api'
-import { getTickerRequestUrl, getDecimalPrecision } from '@/store/helpers'
+import { getTickerRequestUrl, getDecimalPrecision, getChartConvertCurrency } from '@/store/helpers'
 
 export default {
   namespaced: true,
@@ -37,10 +37,11 @@ export default {
   },
 
   actions: {
-    updateConverted({ commit, getters }, value) {
+    updateConverted({ commit, getters, dispatch, root }, value) {
       const convert = getters.convert
       const currencies = getters.currencies
       const requestUrl = getTickerRequestUrl(convert)
+      const chartConvertCurrency = getChartConvertCurrency(currencies, convert)
 
       subscribe('getPrice', {
         action: requestUrl,
@@ -60,6 +61,8 @@ export default {
           console.error(new Error(error))
         }
       })
+
+      dispatch('chart/updateConvertCurrency', chartConvertCurrency, { root: true })
     },
 
     clearConverted({ commit }) {

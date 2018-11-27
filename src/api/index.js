@@ -30,8 +30,8 @@ function buildParams(paramsObject) {
  * @param  {String} root        The response property name
  */
 export function request(action, method, params = {}, root) {
-  const data = buildParams(params)
-  const url = `${action}/?${data}`
+  const data = method === 'post' ? params : buildParams(params)
+  const url = method === 'post' ? action : `${action}/?${data}`
 
   logRequests && console.log(`fetching ${url}...`)
 
