@@ -13,13 +13,33 @@ export default {
     convert: {
       from: 'USD',
       to: null
-    }
+    },
+
+    periodSettings: {
+      day: {
+        handler: 'hour',
+        limit: 23
+      },
+      week: {
+        handler: 'day',
+        limit: 6
+      },
+      month: {
+        handler: 'day',
+        limit: 30
+      }
+    },
+
+    period: 'day',
+    periods: ['day', 'week', 'month']
   }),
 
   getters: {
     labels: state => state.data.labels,
     values: state => state.data.values,
-    convert: state => state.convert
+    convert: state => state.convert,
+    period: state => state.period,
+    periods: state => state.periods
   },
 
   actions: {
@@ -28,13 +48,21 @@ export default {
       dispatch('updateChart')
     },
 
-    updateChart({ commit, getters }) {
-      const requestUrl = getChartDataRequestUrl()
+    updateConvertPeriod({ commit, dispatch, getters }, period) {
+      commit('setPeriod', period)
+      dispatch('updateChart')
+    },
+
+    updateChart({ commit, getters, state }) {
       const convert = getters.convert
+      const period = getters.period
+      const limit = state.periodSettings[period].limit
+      const handler = state.periodSettings[period].handler
+      const requestUrl = getChartDataRequestUrl(handler)
       const params = {
         fsym: convert.to,
         tsym: convert.from,
-        limit: 100
+        limit
       }
 
       request(requestUrl, 'get', params, 'Data')
@@ -52,6 +80,10 @@ export default {
       state.convert.to = currency
     },
 
+    setPeriod(state, period) {
+      state.period = period
+    },
+
     setData(state, data) {
       const values = []
       const labels = []
@@ -61,8 +93,8 @@ export default {
         labels.push(formatTime(point.time))
       })
 
-      state.values = values
-      state.labels = labels
+      state.data.values = values
+      state.data.labels = labels
     }
   }
 }

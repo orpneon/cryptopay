@@ -1,12 +1,13 @@
 <template>
   <v-container :class="b()"
+               pa-0
                fluid>
 
-    <currency-select/>
-
-    <convert-field/>
-
-    <convert-result v-if="convertedResult"/>
+    <div :class="b('wrapper')">
+      <currency-select/>
+      <convert-field/>
+      <convert-result v-if="convertedResult"/>
+    </div>
 
     <chart v-if="convertedResult"
            :hidden="Boolean(convertedResult)"/>
@@ -41,6 +42,9 @@
     -moz-user-select none
     -ms-user-select none
     user-select none
-    margin 30px 0
+
+    &__wrapper
+      margin 30px auto
+      max-width 800px
 
 </style>

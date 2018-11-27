@@ -42,13 +42,12 @@
     -moz-osx-font-smoothing grayscale
     height auto
     color #fff
-    max-width 800px
-    margin 0 auto
     background-color transparent
 
     .header
       text-align center
-      margin-top 60px
+      max-width 800px
+      margin 60px auto 0
 
       &__title
         font-weight normal
