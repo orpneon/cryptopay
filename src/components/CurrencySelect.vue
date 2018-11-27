@@ -56,12 +56,12 @@
     },
 
     computed: {
-      ...mapGetters(['currencies', 'convert'])
+      ...mapGetters('converter', ['currencies', 'convert'])
     },
 
     methods: {
-      ...mapActions(['updateConverted']),
-      ...mapMutations(['swapConvert']),
+      ...mapActions('converter', ['updateConverted']),
+      ...mapMutations('converter', ['swapConvert']),
 
       swapConversion() {
         this.swapConvert()

@@ -44,7 +44,7 @@
     },
 
     methods: {
-      ...mapActions(['updateConverted', 'clearConverted']),
+      ...mapActions('converter', ['updateConverted', 'clearConverted']),
 
       maybeConvertCurrency: debounce(function(val) {
         this.checkValidity(val)

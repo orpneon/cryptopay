@@ -16,7 +16,7 @@
     name: 'convert-result',
 
     computed: {
-      ...mapGetters(['convertedResult', 'amount', 'convert', 'changed']),
+      ...mapGetters('converter', ['convertedResult', 'amount', 'convert', 'changed']),
 
       changedIcon() {
         return this.changed < 0 ? 'call_received' : 'call_made'

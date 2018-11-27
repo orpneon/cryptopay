@@ -23,7 +23,7 @@
     components: { ConvertResult, ConvertField, CurrencySelect },
 
     computed: {
-      ...mapGetters(['convertedResult'])
+      ...mapGetters('converter', ['convertedResult'])
     }
   }
 </script>

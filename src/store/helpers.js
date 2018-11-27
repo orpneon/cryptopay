@@ -9,6 +9,10 @@ export function getTickerRequestUrl(convert) {
   return `${TICKER_API_URL}/ticker/${convertStr}`
 }
 
+export function getChartDataRequestUrl() {
+  return CHART_DATA_API_URL
+}
+
 export function getDecimalPrecision(convert, currencies) {
   const record = find(currencies.to, record => convert.to === record.value)
 
