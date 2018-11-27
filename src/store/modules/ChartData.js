@@ -1,12 +1,14 @@
 import { request } from '@/api'
-import { getChartDataRequestUrl } from '@/store/helpers'
+import { getChartDataRequestUrl, formatTime } from '@/store/helpers'
 
 export default {
   namespaced: true,
 
   state: () => ({
-    labels: [],
-    values: [],
+    data: {
+      values: [],
+      labels: []
+    },
 
     convert: {
       from: 'USD',
@@ -15,15 +17,13 @@ export default {
   }),
 
   getters: {
-    labels: state => state.labels,
-    values: state => state.values,
-    convert: state => state.convert,
-    min: state => state.min,
-    max: state => state.max
+    labels: state => state.data.labels,
+    values: state => state.data.values,
+    convert: state => state.convert
   },
 
   actions: {
-    updateConvertCurrency({ commit, dispatch }, currency) {
+    updateConvertCurrency({ commit, dispatch, getters }, currency) {
       commit('setConvert', currency)
       dispatch('updateChart')
     },
@@ -32,12 +32,14 @@ export default {
       const requestUrl = getChartDataRequestUrl()
       const convert = getters.convert
       const params = {
-        market: `${convert.from}-${convert.to}`
+        fsym: convert.to,
+        tsym: convert.from,
+        limit: 100
       }
 
-      request(requestUrl, 'get', params)
+      request(requestUrl, 'get', params, 'Data')
         .then(data => {
-          console.log(data)
+          commit('setData', data)
         })
         .catch(error => {
           console.error(new Error(error))
@@ -48,6 +50,19 @@ export default {
   mutations: {
     setConvert(state, currency) {
       state.convert.to = currency
+    },
+
+    setData(state, data) {
+      const values = []
+      const labels = []
+
+      data.forEach(point => {
+        values.push(point.open)
+        labels.push(formatTime(point.time))
+      })
+
+      state.values = values
+      state.labels = labels
     }
   }
 }

@@ -31,19 +31,26 @@ function buildParams(paramsObject) {
  */
 export function request(action, method, params = {}, root) {
   const data = method === 'post' ? params : buildParams(params)
-  const url = method === 'post' ? action : `${action}/?${data}`
+  const url = method === 'post' ? action : `${action}?${data}`
 
   logRequests && console.log(`fetching ${url}...`)
 
   return new Promise((resolve, reject) => {
     api({ method, url, data })
       .then(response => {
-        if (response.data.success === true) {
-          logRequests && console.log(`fetched ${url}.`)
-          resolve(root ? response.data[root] : response.data)
-        } else {
-          const error = response.data.error
-          isClientEntry() ? showError(error) : reject(error)
+        let error
+
+        switch (true) {
+          case response.data.success === true:
+          case response.data.Response === 'Success':
+            logRequests && console.log(`fetched ${url}.`)
+            resolve(root ? response.data[root] : response.data)
+            break
+
+          case response.data.success !== true:
+            error = response.data.error
+            isClientEntry() ? showError(error) : reject(error)
+            break
         }
       })
       .catch(err => {

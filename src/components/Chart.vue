@@ -26,13 +26,13 @@
       return {
         locale: {
           title: 'График',
-          description: 'Последние изменения по данным bittrex.com'
+          description: 'Последние изменения по данным CryptoCompare'
         }
       }
     },
 
     computed: {
-      ...mapGetters('chart', ['convert']),
+      ...mapGetters('chart', ['convert', 'labels', 'values']),
 
       title() {
         const cnv = this.convert
