@@ -62,9 +62,7 @@ export default {
         }
       })
 
-      if (amount) {
-        dispatch('chart/updateConvertCurrency', chartConvertCurrency, { root: true })
-      }
+      dispatch('chart/updateConvertCurrency', chartConvertCurrency, { root: true })
     },
 
     clearConverted({ commit }) {

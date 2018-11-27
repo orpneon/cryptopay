@@ -6,10 +6,10 @@
     <div :class="b('wrapper')">
       <currency-select/>
       <convert-field/>
-      <convert-result v-if="convertedResult"/>
+      <convert-result v-show="convertedResult"/>
     </div>
 
-    <chart v-if="convertedResult"/>
+    <chart/>
 
   </v-container>
 </template>

@@ -51,6 +51,7 @@
 
     computed: {
       ...mapGetters('chart', ['convert', 'labels', 'values']),
+      ...mapGetters('converter', { converter: 'convert' }),
 
       title() {
         const cnv = this.convert
@@ -68,6 +69,10 @@
           }]
         }
       }
+    },
+
+    beforeMount() {
+      this.$store.dispatch('chart/updateConvertCurrency', this.converter.to)
     }
   }
 </script>

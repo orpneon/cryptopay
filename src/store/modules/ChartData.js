@@ -26,7 +26,7 @@ export default {
       },
       month: {
         handler: 'day',
-        limit: 30
+        limit: 31
       }
     },
 
