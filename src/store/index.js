@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { request } from '@/api'
-import { find } from 'underscore'
+import { subscribe, unsubscribe } from '@/api'
+import * as helpers from './helpers'
 
 Vue.use(Vuex)
 
@@ -10,14 +10,14 @@ export function createStore() {
     state: {
       currencies: {
         from: [
-          { text: 'US Dollar', value: 'USD', decimalPrecision: 2 },
-          { text: 'Euro', value: 'EUR', decimalPrecision: 2 },
-          { text: 'Ruble', value: 'RUR', decimalPrecision: 2 }
+          { text: 'US Dollar', value: 'USD', decimalPrecision: 2, type: 'fiat' },
+          { text: 'Euro', value: 'EUR', decimalPrecision: 2, type: 'fiat' },
+          { text: 'Ruble', value: 'RUR', decimalPrecision: 2, type: 'fiat' }
         ],
         to: [
-          { text: 'Bitcoin', value: 'BTC', decimalPrecision: 8 },
-          { text: 'Litecoin', value: 'LTC', decimalPrecision: 8 },
-          { text: 'Ethereum', value: 'ETH', decimalPrecision: 8 }
+          { text: 'Bitcoin', value: 'BTC', decimalPrecision: 8, type: 'crypto' },
+          { text: 'Litecoin', value: 'LTC', decimalPrecision: 8, type: 'crypto' },
+          { text: 'Ethereum', value: 'ETH', decimalPrecision: 8, type: 'crypto' }
         ]
       },
 
@@ -43,12 +43,13 @@ export function createStore() {
       updateConverted({ commit, getters }, value) {
         const convert = getters.convert
         const currencies = getters.currencies
-        const convertStr = `${convert.from.toLowerCase()}-${convert.to.toLowerCase()}`
+        const requestUrl = helpers.getTickerRequestUrl(convert)
 
-        request(`ticker/${convertStr}`, 'get')
-          .then(data => {
-            const current = find(currencies.to, record => convert.to === record.value)
-            const decimalPrecision = current ? current.decimalPrecision : 2
+        subscribe('getPrice', {
+          action: requestUrl,
+          method: 'get',
+          callback: data => {
+            const decimalPrecision = helpers.getDecimalPrecision(convert, currencies)
             const price = +data.ticker.price
             const change = +data.ticker.change
             const amount = value || getters.amount
@@ -57,10 +58,16 @@ export function createStore() {
             commit('setAmount', amount)
             commit('setChanged', change)
             commit('setConvertedResult', result)
-          })
-          .catch(error => {
+          },
+          failure: error => {
             console.error(new Error(error))
-          })
+          }
+        })
+      },
+
+      clearConverted({ commit }) {
+        unsubscribe('getPrice')
+        commit('clearConverted')
       }
     },
 

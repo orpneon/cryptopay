@@ -21,7 +21,7 @@
 <script>
   import { debounce } from 'underscore'
   import { validateNumberField } from '@/util/validators'
-  import { mapActions, mapMutations } from 'vuex'
+  import { mapActions } from 'vuex'
 
   export default {
     name: 'convert-field',
@@ -44,8 +44,7 @@
     },
 
     methods: {
-      ...mapActions(['updateConverted']),
-      ...mapMutations(['clearConverted']),
+      ...mapActions(['updateConverted', 'clearConverted']),
 
       maybeConvertCurrency: debounce(function(val) {
         this.checkValidity(val)

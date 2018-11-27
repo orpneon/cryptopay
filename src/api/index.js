@@ -1,10 +1,12 @@
 // this is aliased in webpack config based on server/client build
 import { createAPI } from 'create-api'
+import { each } from 'underscore'
 import { showError, isClientEntry } from '@/api/error-handler'
 
 const logRequests = !!process.env.DEBUG_API
 const api = createAPI()
-const API_URL = 'https://api.cryptonator.com/api'
+const subscriptions = {}
+const DEFAULT_INTERVAL = 5 * 1000
 
 function buildParams(paramsObject) {
   return Object.keys(paramsObject)
@@ -22,14 +24,14 @@ function buildParams(paramsObject) {
 
 /**
  * Request to the API method
- * @param  {String} action      API method
+ * @param  {String} action      API url
  * @param  {String} method      HTTP method
- * @param  {Object} params        Request parameters
+ * @param  {Object} params      Request parameters
  * @param  {String} root        The response property name
  */
 export function request(action, method, params = {}, root) {
   const data = buildParams(params)
-  const url = `${API_URL}/${action}/?${data}`
+  const url = `${action}/?${data}`
 
   logRequests && console.log(`fetching ${url}...`)
 
@@ -49,4 +51,47 @@ export function request(action, method, params = {}, root) {
         isClientEntry() ? showError(error) : reject(error)
       })
   })
+}
+
+export function subscribe(event, params = {}, interval = DEFAULT_INTERVAL) {
+  const { action, method, callback, failure, scope, data, root } = params
+
+  if (!action || !method || !callback || !failure) {
+    const error = 'Subscription failed: not all options specified'
+    return isClientEntry() ? showError(error) : Promise.reject(error)
+  }
+
+  if (subscriptions[event]) {
+    unsubscribe(event)
+  }
+
+  const success = scope ? callback.bind(scope) : callback
+  const error = scope ? failure.bind(scope) : failure
+  const requestFn = () => {
+    request(action, method, data, root)
+      .then(success)
+      .catch(error)
+  }
+
+  requestFn()
+  subscriptions[event] = setInterval(requestFn, interval)
+
+  return Promise.resolve(subscriptions[event])
+}
+
+export function unsubscribe(event) {
+  const subscription = subscriptions[event]
+
+  subscription && clearInterval(subscriptions[event])
+  delete subscriptions[event]
+
+  return Promise.resolve()
+}
+
+export function unsubscribeAll() {
+  each(subscriptions, (event, key, obj) => {
+    delete obj[key]
+  })
+
+  return Promise.resolve()
 }
