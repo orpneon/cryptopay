@@ -1,5 +1,5 @@
 <template>
-  <v-container :class="b({}, hidden ? 'hidden' : '')"
+  <v-container :class="b({})"
                pa-4
                fluid>
 
@@ -23,18 +23,12 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   import ChartTools from '@/components/ChartTools.vue'
 
   export default {
     name: 'currency-price-chart',
     components: { ChartTools },
-    props: {
-      hidden: {
-        type: Boolean,
-        required: true
-      }
-    },
 
     data() {
       return {
@@ -49,13 +43,8 @@
 
       title() {
         const cnv = this.convert
-        const strings = [this.locale.title]
 
-        if (cnv.to) {
-          strings.push(`${cnv.from} / ${cnv.to}`)
-        }
-
-        return strings.join(' ')
+        return `${this.locale.title} ${cnv.from} / ${cnv.to}`
       }
     }
   }
@@ -66,6 +55,7 @@
     margin-top 30px
     background-color #fff
     color rgba(0, 0, 0, .87)
+    transition height .3s ease-in
 
     &__title
       font-size 24px

@@ -40,6 +40,7 @@ export default {
     updateConverted({ commit, getters, dispatch, root }, value) {
       const convert = getters.convert
       const currencies = getters.currencies
+      const amount = value || getters.amount
       const requestUrl = getTickerRequestUrl(convert)
       const chartConvertCurrency = getChartConvertCurrency(currencies, convert)
 
@@ -50,7 +51,6 @@ export default {
           const decimalPrecision = getDecimalPrecision(convert, currencies)
           const price = +data.ticker.price
           const change = +data.ticker.change
-          const amount = value || getters.amount
           const result = +(price * amount).toFixed(decimalPrecision)
 
           commit('setAmount', amount)
@@ -62,7 +62,9 @@ export default {
         }
       })
 
-      dispatch('chart/updateConvertCurrency', chartConvertCurrency, { root: true })
+      if (amount) {
+        dispatch('chart/updateConvertCurrency', chartConvertCurrency, { root: true })
+      }
     },
 
     clearConverted({ commit }) {
@@ -97,6 +99,7 @@ export default {
     },
 
     clearConverted(state) {
+      state.amount = null
       state.convertedResult = null
     }
   }

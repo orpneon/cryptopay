@@ -6,15 +6,11 @@ import App from './App.vue'
 import { createStore } from './store'
 import { createRouter } from './router'
 import { sync } from 'vuex-router-sync'
-import titleMixin from './util/title'
 
 // styles
 import 'vuejs-noty/dist/vuejs-noty.css'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
-
-// mixin for handling title
-Vue.mixin(titleMixin)
 
 Vue.use(Vuetify)
 Vue.use(VueBemCn)

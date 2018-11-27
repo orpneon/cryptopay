@@ -44,11 +44,13 @@ export default {
 
   actions: {
     updateConvertCurrency({ commit, dispatch, getters }, currency) {
-      commit('setConvert', currency)
-      dispatch('updateChart')
+      if (getters.convert.to !== currency) {
+        commit('setConvert', currency)
+        dispatch('updateChart')
+      }
     },
 
-    updateConvertPeriod({ commit, dispatch, getters }, period) {
+    updateConvertPeriod({ commit, dispatch }, period) {
       commit('setPeriod', period)
       dispatch('updateChart')
     },

@@ -9,8 +9,7 @@
       <convert-result v-if="convertedResult"/>
     </div>
 
-    <chart v-if="convertedResult"
-           :hidden="Boolean(convertedResult)"/>
+    <chart v-if="convertedResult"/>
 
   </v-container>
 </template>
