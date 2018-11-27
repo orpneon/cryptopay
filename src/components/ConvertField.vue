@@ -51,11 +51,13 @@
 
         this.$nextTick(() => {
           const isValid = this.validityError.length === 0
+          const value = this.value
+          const router = this.$router
 
           if (isValid && this.value) {
-            this.updateConverted(this.value)
+            this.updateConverted({ value, router })
           } else {
-            this.clearConverted()
+            this.clearConverted(this.$router)
           }
         })
       }, 300),

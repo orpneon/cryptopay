@@ -69,7 +69,7 @@
       },
 
       forceUpdateConversion() {
-        this.updateConverted()
+        this.updateConverted({ value: null, router: this.$router })
       }
     }
   }

@@ -8,34 +8,27 @@ export default {
     labels: [],
     values: [],
 
-    convert: {
-      from: 'USD',
-      to: null
-    }
+    market: null
   }),
 
   getters: {
     labels: state => state.labels,
     values: state => state.values,
-    convert: state => state.convert,
+    market: state => state.market,
     min: state => state.min,
     max: state => state.max
   },
 
   actions: {
-    updateConvertCurrency({ commit, dispatch }, currency) {
-      commit('setConvert', currency)
-      dispatch('updateChart')
+    updateConvertMarket({ commit, dispatch }, market) {
+      commit('setConvertMarket', market)
     },
 
     updateChart({ commit, getters }) {
       const requestUrl = getChartDataRequestUrl()
-      const convert = getters.convert
-      const params = {
-        market: `${convert.from}-${convert.to}`
-      }
+      const market = getters.market
 
-      request(requestUrl, 'get', params)
+      return request(requestUrl, 'get', { market })
         .then(data => {
           console.log(data)
         })
@@ -46,8 +39,8 @@ export default {
   },
 
   mutations: {
-    setConvert(state, currency) {
-      state.convert.to = currency
+    setConvertMarket(state, market) {
+      state.market = market
     }
   }
 }

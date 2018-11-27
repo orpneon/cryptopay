@@ -8,8 +8,7 @@
 
     <convert-result v-if="convertedResult"/>
 
-    <chart v-if="convertedResult"
-           :hidden="Boolean(convertedResult)"/>
+    <router-view/>
 
   </v-container>
 </template>
@@ -20,12 +19,11 @@
   import CurrencySelect from '@/components/CurrencySelect.vue'
   import ConvertField from '@/components/ConvertField.vue'
   import ConvertResult from '@/components/ConvertResult.vue'
-  import Chart from '@/components/Chart.vue'
 
   export default {
     name: 'crypto-calculator',
 
-    components: { ConvertResult, ConvertField, CurrencySelect, Chart },
+    components: { ConvertResult, ConvertField, CurrencySelect },
 
     computed: {
       ...mapGetters('converter', ['convertedResult'])

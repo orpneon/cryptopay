@@ -1,5 +1,5 @@
 <template>
-  <div :class="b({}, hidden ? 'hidden' : '')">
+  <div :class="b()">
     <div :class="b('title')">
       {{ title }}
     </div>
@@ -15,11 +15,10 @@
   export default {
     name: 'currency-price-chart',
 
-    props: {
-      hidden: {
-        type: Boolean,
-        required: true
-      }
+    asyncData({ store, route }) {
+      const market = route.params.market
+
+      return store.dispatch('chart/updateConvertMarket', market)
     },
 
     data() {
@@ -32,21 +31,29 @@
     },
 
     computed: {
-      ...mapGetters('chart', ['convert']),
+      ...mapGetters('chart', ['market']),
 
       title() {
-        const cnv = this.convert
-        const strings = [this.locale.title]
+        const title = this.locale.title
+        const market = this.market
 
-        if (cnv.to) {
-          strings.push(`${cnv.from} / ${cnv.to}`)
+        if (market) {
+          return `${title} ${market.replace('-', '/')}`
         }
 
-        return strings.join(' ')
+        return title
       }
     },
 
-    methods: {}
+    beforeMount() {
+      window.onbeforeunload = () => {
+        this.$router.push('/')
+      }
+    },
+
+    destroyed() {
+      window.onbeforeunload = null
+    }
   }
 </script>
 

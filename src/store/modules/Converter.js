@@ -1,5 +1,5 @@
 import { subscribe, unsubscribe } from '@/api'
-import { getTickerRequestUrl, getDecimalPrecision, getChartConvertCurrency } from '@/store/helpers'
+import { getTickerRequestUrl, getDecimalPrecision, getChartConvertMarket } from '@/store/helpers'
 
 export default {
   namespaced: true,
@@ -37,11 +37,11 @@ export default {
   },
 
   actions: {
-    updateConverted({ commit, getters, dispatch, root }, value) {
+    updateConverted({ commit, getters, dispatch, root }, { value, router }) {
       const convert = getters.convert
       const currencies = getters.currencies
       const requestUrl = getTickerRequestUrl(convert)
-      const chartConvertCurrency = getChartConvertCurrency(currencies, convert)
+      const market = getChartConvertMarket(currencies, convert)
 
       subscribe('getPrice', {
         action: requestUrl,
@@ -62,12 +62,13 @@ export default {
         }
       })
 
-      dispatch('chart/updateConvertCurrency', chartConvertCurrency, { root: true })
+      router.push(`/${market}/`)
     },
 
-    clearConverted({ commit }) {
+    clearConverted({ commit }, router) {
       unsubscribe('getPrice')
       commit('clearConverted')
+      router.push('/')
     }
   },
 

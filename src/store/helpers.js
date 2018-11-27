@@ -19,8 +19,10 @@ export function getDecimalPrecision(convert, currencies) {
   return record ? record.decimalPrecision : 2
 }
 
-export function getChartConvertCurrency(currencies, convert) {
+export function getChartConvertMarket(currencies, convert) {
   const record = find(currencies.from, record => convert.from === record.value)
+  const from = 'USD'
+  const to = record.type === 'crypto' ? convert.from : convert.to
 
-  return record.type === 'crypto' ? convert.from : convert.to
+  return `${from}-${to}`
 }
