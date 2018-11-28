@@ -82,7 +82,6 @@
     margin-top 30px
     background-color #fff
     color rgba(0, 0, 0, .87)
-    transition height .3s ease-in
 
     &__title
       font-size 24px
